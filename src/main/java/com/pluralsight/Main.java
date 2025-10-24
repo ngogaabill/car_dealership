@@ -1,8 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -73,6 +71,7 @@ public class Main {
             String fileData;
             while ((fileData = bufferedReader.readLine()) != null) {
                 String[] parts = fileData.split("\\|");
+
                 int mileage = Integer.parseInt(parts[0]);
                 int year = Integer.parseInt(parts[1]);
                 String make = parts[2];
@@ -97,12 +96,40 @@ public class Main {
     }
 
     private static void addVehicle() {
+        System.out.println("Enter Vehicle mileage:");
+        int mileage = scanner.nextInt();
+        System.out.println("Enter Vehicle Year:");
+        int year = scanner.nextInt();
+        System.out.println("Enter Vehicle Make");
+        scanner.nextLine();
+        String make = scanner.nextLine();
+        System.out.println("Enter Vehicle Model");
+        String model = scanner.nextLine();
+        System.out.println("Enter Vehicle Body Type:");
+        String bodyType = scanner.nextLine();
+        System.out.println("Enter Vehicle Color:");
+        String color = scanner.nextLine();
+        System.out.println("Enter Vehicle Vin:");
+        int vin = scanner.nextInt();
+        System.out.println("Enter Vehicle Price:");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true))) {
+            Vehicle vehicle = new Vehicle(mileage, year, make, model, bodyType, color, vin, price);
+            vehicles.add(vehicle);
+            bufferedWriter.newLine();
+            bufferedWriter.write(mileage + "|" + year + "|" + make + "|" + model + "|" + bodyType + "|" + color + "|" + vin + "|" + price);
+
+        } catch (IOException e) {
+            System.out.println("Can't Write to this File");
+        }
+
         System.out.println("Vehicle Added Successfully!!");
     }
 
     private static void allVehicles() {
         System.out.println("All Vehicles Available");
-        for(Vehicle v:vehicles){
+        for (Vehicle v : vehicles) {
             System.out.println(v);
         }
     }
